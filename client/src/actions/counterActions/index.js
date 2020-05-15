@@ -1,4 +1,4 @@
-import { INCREMENT } from '../types';
+import { INCREMENT, DECREMENT } from '../types';
 
 
 // Create action creator
@@ -9,5 +9,11 @@ import { INCREMENT } from '../types';
 export const increment = () => {
   return {
     type: INCREMENT
+  };
+};
+
+export const decrement = () => {
+  return {
+    type: DECREMENT
   };
 };

@@ -5,5 +5,5 @@ import counterReducer from './counterReducer';
 
 export default combineReducers({
   counter: counterReducer,
-  form: formReducer
+  form: formReducer,
 });
