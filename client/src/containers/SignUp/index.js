@@ -6,11 +6,13 @@ import axios from 'axios';
 
 
 class SignUp extends Component {
-  renderEmail = formProps => {
-    console.log(formProps);
+  renderEmail = ({ input, meta }) => {
+    console.log(meta);
     return (
       <Form.Input
+        {...input}
         fluid
+        error={ meta.touched && meta.error }
         icon='user'
         iconPosition='left'
         autoComplete='off'
@@ -39,5 +41,20 @@ class SignUp extends Component {
   }
 };
 
+const asyncValidate = async ({ email }) => {
+  try {
+    const { data } = await axios.get('/api/user/emails');
+    const foundEmail = data.some(user => user.email === email);
+    if (foundEmail) {
+      throw new Error();
+    }
+  } catch (e) {
+    throw { email: 'Email is already taken' };
+  }
+};
 
-export default reduxForm({ form: 'SignUp' })(SignUp);
+export default reduxForm({
+  form: 'SignUp',
+  asyncValidate,
+  asyncChangeFields: ['email']
+})(SignUp);
