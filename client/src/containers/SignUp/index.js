@@ -4,10 +4,21 @@ import { Form, Segment, Button } from 'semantic-ui-react';
 import { email, length, required } from 'redux-form-validators';
 import axios from 'axios';
 
+import { AUTH_USER, AUTH_USER_ERROR } from '../../actions/types';
 
 class SignUp extends Component {
+  onSubmit = async (formValues, dispatch) => {
+    try {
+      const { data } = await axios.post('/api/auth/signup', formValues);
+      localStorage.setItem('token', data.token);
+      dispatch({ type: AUTH_USER, payload: data.token });
+      this.props.history.push('/counter');
+    } catch (e) {
+      dispatch({ type: AUTH_USER_ERROR, payload: e });
+    }
+  }
+
   renderEmail = ({ input, meta }) => {
-    console.log(meta);
     return (
       <Form.Input
         {...input}
@@ -20,6 +31,7 @@ class SignUp extends Component {
       />
     )
   }
+
 
   renderPassword = ({ input, meta }) => {
     return (
@@ -37,8 +49,9 @@ class SignUp extends Component {
   }
 
   render() {
+    const { handleSubmit, invalid, submitting, submitFailed } = this.props;
     return (
-      <Form size='large'>
+      <Form size='large' onSubmit={handleSubmit(this.onSubmit)}>
         <Segment stacked>
           <Field
             name='email'
@@ -60,6 +73,14 @@ class SignUp extends Component {
             }
             component={this.renderPassword}
           />
+          <Button
+            content='Sign Up'
+            color='teal'
+            fluid
+            size='large'
+            type='submit'
+            disabled={ invalid || submitting || submitFailed }
+          />
         </Segment>
       </Form>
     );
@@ -68,9 +89,8 @@ class SignUp extends Component {
 
 const asyncValidate = async ({ email }) => {
   try {
-    const { data } = await axios.get('/api/user/emails');
-    const foundEmail = data.some(user => user.email === email);
-    if (foundEmail) {
+    const { data } = await axios.get(`/api/user/emails?email=${email}`);
+    if (data) {
       throw new Error();
     }
   } catch (e) {
