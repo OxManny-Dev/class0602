@@ -22,6 +22,7 @@ class App extends Component {
         <Grid.Column style={{ maxWidth: 700 }}>
           <Navbar authenticated={this.props.authenticated}/>
           <Route exact path='/' component={SignUp}/>
+
           <Route exact path='/signin' component={SignIn}/>
           {/*<Route exact path='/signout' component={SignOut}/>*/}
           <Route exact path='/alltodos' component={AllTodosList}/>

@@ -3,14 +3,26 @@ import { Field, reduxForm, SubmissionError } from 'redux-form';
 import { Form, Segment, Button } from 'semantic-ui-react';
 import { email, required } from 'redux-form-validators';
 import axios from 'axios';
+import { AUTH_USER, AUTH_USER_ERROR } from '../../actions/types';
+
+
 
 class SignIn extends Component {
-
   // When the user submits the form, send the formValues to /api/auth/signin
+  onSubmit = async (formValues, dispatch) => {
+    try {
+      const { data } = await axios.post('/api/auth/signin', formValues);
+      console.log(data);
+      localStorage.setItem('token', data.token);
+      dispatch({ type: AUTH_USER, payload: data.token });
+      this.props.history.push('/counter');
+    } catch (e) {
+      dispatch({ type: AUTH_USER_ERROR, payload: e });
+    }
+  }
   // set the token coming from data into localStorage under the key 'token'
   // Dispatch the action to the reducer to set the token as the state for authentication
   // Redirect the user to the '/counter' route
-
   renderEmail = ({ input, meta }) => {
     return (
       <Form.Input
@@ -38,21 +50,20 @@ class SignIn extends Component {
       />
     )
   }
-
   render() {
-    const { invalid, submitting, submitFailed } = this.props;
+    const { handleSubmit, invalid, submitting, submitFailed } = this.props;
     return (
-      <Form size='large'>
+      <Form size='large' onSubmit={handleSubmit(this.onSubmit)}>
         <Segment stacked>
           <Field
-             name='email'
-             component={this.renderEmail}
-             validate={
-               [
-                 required({ msg: 'Email is required' }),
-                 email({ msg: 'You must provide a valid email address' })
-               ]
-             }
+            name='email'
+            component={this.renderEmail}
+            validate={
+              [
+                required({ msg: 'Email is required' }),
+                email({ msg: 'You must provide a valid email address' })
+              ]
+            }
           />
           <Field
             name='password'
@@ -76,6 +87,4 @@ class SignIn extends Component {
     )
   }
 }
-
-
 export default reduxForm({ form: 'SignIn '})(SignIn);
