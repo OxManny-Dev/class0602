@@ -10,7 +10,7 @@ import AllTodosList from '../AllTodosList';
 
 import SignUp from '../SignUp';
 import SignIn from '../SignIn';
-// import SignOut from '../SignOut';
+import SignOut from '../SignOut';
 
 import Navbar from './../../components/Navbar';
 
@@ -24,7 +24,7 @@ class App extends Component {
           <Route exact path='/' component={SignUp}/>
 
           <Route exact path='/signin' component={SignIn}/>
-          {/*<Route exact path='/signout' component={SignOut}/>*/}
+          <Route exact path='/signout' component={SignOut}/>
           <Route exact path='/alltodos' component={AllTodosList}/>
           {/*<Route exact path='/usertodos' component={UserTodoList}/>*/}
           <Route exact path='/counter' component={Counter}/>
