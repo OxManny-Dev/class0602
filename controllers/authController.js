@@ -38,8 +38,5 @@ module.exports = {
       return res.status(403).json({ e });
     }
   },
-  signIn: (req, res) => {
-    console.log("I'm hit");
-    return res.json({ token: tokenForUser(req.user) });
-  },
+  signIn: (req, res) => res.json({ token: tokenForUser(req.user) }),
 };
