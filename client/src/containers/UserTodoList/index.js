@@ -13,6 +13,12 @@ import { ADD_USER_TODO, ADD_USER_TODO_ERROR } from '../../actions/types';
 import UserTodoListItems from './UserTodoListItems';
 
 class UserTodoList extends Component {
+  state = {
+    activePage: 1,
+    start: 0,
+    end: 10,
+  }
+
 
   componentDidMount() {
     this.props.getUserTodos();
@@ -39,6 +45,14 @@ class UserTodoList extends Component {
     );
   }
 
+  handlePageChange = (event, data) => {
+    this.setState({
+      activePage: data.activePage,
+      start: data.activePage === 1 ? 0 : data.activePage * 10 - 10,
+      end: data.activePage * 10
+    });
+  }
+
   render() {
     const { handleSubmit } = this.props;
     console.log(this.props.userTodos);
@@ -59,8 +73,16 @@ class UserTodoList extends Component {
               content='Add a todo'/>
           </Segment>
           <List animated divided selection>
-            <UserTodoListItems todos={this.props.userTodos}/>
+            <UserTodoListItems todos={this.props.userTodos.slice(this.state.start, this.state.end)}/>
           </List>
+          { this.props.userTodos.length === 0 ?
+            null
+            : <Pagination
+              totalPages={ Math.ceil(this.props.userTodos.length / 10) }
+              activePage={this.state.activePage}
+              onPageChange={ (e, data) => this.handlePageChange(e, data) }
+            />
+          }
         </Form>
       </>
     );
