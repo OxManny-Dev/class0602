@@ -2,13 +2,18 @@ export const INCREMENT = 'INCREMENT';
 export const DECREMENT = 'DECREMENT';
 
 
-
+//All user todos
 export const GET_ALL_TODOS = 'GET_ALL_TODOS';
 export const GET_ALL_TODOS_ERROR = 'GET_ALL_TODOS_ERROR';
 
 
+// Authenticated user todos
+export const GET_USER_TODOS = 'GET_USER_TODOS';
+export const GET_USER_TODOS_ERROR = 'GET_USER_TODOS_ERROR';
 
 
+export const ADD_USER_TODO = 'ADD_USER_TODO';
+export const ADD_USER_TODO_ERROR = 'ADD_USER_TODO_ERROR';
 
 
 // Authenticate user action types

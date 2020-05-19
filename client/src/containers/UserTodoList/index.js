@@ -4,9 +4,14 @@ import { Header, Form, Segment, Message, List, Pagination } from 'semantic-ui-re
 import { connect } from 'react-redux';
 import { compose } from 'redux';
 
+import { getUserTodos } from '../../actions/allTodos';
 
 
 class UserTodoList extends Component {
+
+  componentDidMount() {
+    this.props.getUserTodos();
+  }
 
   renderAddTodo = ({ input, meta, language })=> {
     return (
@@ -37,4 +42,22 @@ class UserTodoList extends Component {
   }
 }
 
-export default reduxForm({ form: 'Add todo' })(UserTodoList);
+function mapStateToProps(state) {
+  return {
+    userTodos: state.todos.userTodos,
+    todoClientError: state.todos.getUserTodosClientError,
+    todoServerError: state.todos.getUserTodosServerError
+  };
+};
+
+
+// export default reduxForm({ form: 'addTodo' })(connect(mapStateToProps, { getUserTodos })(UserTodoList));
+// export default connect(mapStateToProps, { getUserTodos })(reduxForm({ form: 'addTodo' })(UserTodoList))
+
+// const composedComponent = connect(mapStateToProps, { getUserTodos })(UserTodoList);
+// export default reduxForm({ form: 'addTodo' })(composedComponent);
+
+export default compose(
+  reduxForm({ form: 'addTodo' }),
+  connect(mapStateToProps, { getUserTodos })
+)(UserTodoList);
