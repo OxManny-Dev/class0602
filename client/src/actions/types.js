@@ -18,6 +18,9 @@ export const ADD_USER_TODO_ERROR = 'ADD_USER_TODO_ERROR';
 export const UPDATE_TODO_BY_ID = 'UPDATE_TODO_BY_ID';
 export const UPDATE_TODO_BY_ID_ERROR = 'UPDATE_TODO_BY_ID_ERROR';
 
+export const DELETE_TODO_BY_ID = 'DELETE_TODO_BY_ID';
+export const DELETE_TODO_BY_ID_ERROR = 'DELETE_TODO_BY_ID_ERROR';
+
 
 // Authenticate user action types
 export const AUTH_USER = 'AUTH_USER';

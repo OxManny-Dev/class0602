@@ -3,6 +3,8 @@ import { Grid, Header, Button } from 'semantic-ui-react';
 import { connect } from 'react-redux';
 import { increment, decrement } from '../../actions/counterActions';
 
+import requireAuth from './../../hoc/requireAuth';
+
 class Counter extends Component {
   render() {
     return (
@@ -53,4 +55,5 @@ function mapStateToProps(state) {
 //I will have access to
 // this.props.counter
 // this.props.increment
-export default connect(mapStateToProps, { increment, decrement })(Counter);
+export default requireAuth(connect(mapStateToProps, { increment, decrement })(Counter));
+

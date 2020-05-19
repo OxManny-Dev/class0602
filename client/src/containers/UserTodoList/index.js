@@ -6,7 +6,9 @@ import { compose } from 'redux';
 
 import axios from 'axios';
 
-import { getUserTodos, updateCompleteUserTodoById } from '../../actions/allTodos';
+import requireAuth from './../../hoc/requireAuth';
+
+import { getUserTodos, updateCompleteUserTodoById, deleteTodoById } from '../../actions/allTodos';
 import { ADD_USER_TODO, ADD_USER_TODO_ERROR } from '../../actions/types';
 
 
@@ -76,6 +78,7 @@ class UserTodoList extends Component {
         <List animated divided selection>
           <UserTodoListItems
             todos={this.props.userTodos.slice(this.state.start, this.state.end)}
+            handleDelete={this.props.deleteTodoById}
             handleUpdate={this.props.updateCompleteUserTodoById}
           />
         </List>
@@ -107,7 +110,10 @@ function mapStateToProps(state) {
 // const composedComponent = connect(mapStateToProps, { getUserTodos })(UserTodoList);
 // export default reduxForm({ form: 'addTodo' })(composedComponent);
 
-export default compose(
+const composedComponent = compose(
   reduxForm({ form: 'addTodo' }),
-  connect(mapStateToProps, { getUserTodos, updateCompleteUserTodoById })
+  connect(mapStateToProps, { getUserTodos, updateCompleteUserTodoById, deleteTodoById })
 )(UserTodoList);
+
+
+export default requireAuth(composedComponent);
