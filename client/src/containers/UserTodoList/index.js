@@ -110,7 +110,7 @@ function mapStateToProps(state) {
 // const composedComponent = connect(mapStateToProps, { getUserTodos })(UserTodoList);
 // export default reduxForm({ form: 'addTodo' })(composedComponent);
 
-const composedComponent = compose(
+const composedComponent =  compose(
   reduxForm({ form: 'addTodo' }),
   connect(mapStateToProps, { getUserTodos, updateCompleteUserTodoById, deleteTodoById })
 )(UserTodoList);

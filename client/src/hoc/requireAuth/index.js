@@ -10,7 +10,6 @@ export default (ChildComponent) => {
     // After the component has update it's state
     componentDidUpdate() {
       this.shouldNavigateAway();
-
     }
     shouldNavigateAway() {
       if(!this.props.authenticated) {
@@ -18,9 +17,10 @@ export default (ChildComponent) => {
       }
     }
     render() {
-      return <ChildComponent {...this.props} />
+      return <ChildComponent {...this.props}/>
     }
   }
+
   function mapStateToProps(state) {
     return { authenticated: state.auth.authenticated };
   }
