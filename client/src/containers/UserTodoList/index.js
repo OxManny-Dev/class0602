@@ -6,7 +6,7 @@ import { compose } from 'redux';
 
 import axios from 'axios';
 
-import { getUserTodos } from '../../actions/allTodos';
+import { getUserTodos, updateCompleteUserTodoById } from '../../actions/allTodos';
 import { ADD_USER_TODO, ADD_USER_TODO_ERROR } from '../../actions/types';
 
 
@@ -72,18 +72,21 @@ class UserTodoList extends Component {
               color='teal'
               content='Add a todo'/>
           </Segment>
-          <List animated divided selection>
-            <UserTodoListItems todos={this.props.userTodos.slice(this.state.start, this.state.end)}/>
-          </List>
-          { this.props.userTodos.length === 0 ?
-            null
-            : <Pagination
-              totalPages={ Math.ceil(this.props.userTodos.length / 10) }
-              activePage={this.state.activePage}
-              onPageChange={ (e, data) => this.handlePageChange(e, data) }
-            />
-          }
         </Form>
+        <List animated divided selection>
+          <UserTodoListItems
+            todos={this.props.userTodos.slice(this.state.start, this.state.end)}
+            handleUpdate={this.props.updateCompleteUserTodoById}
+          />
+        </List>
+        { this.props.userTodos.length === 0 ?
+          null
+          : <Pagination
+            totalPages={ Math.ceil(this.props.userTodos.length / 10) }
+            activePage={this.state.activePage}
+            onPageChange={ (e, data) => this.handlePageChange(e, data) }
+          />
+        }
       </>
     );
   }
@@ -106,5 +109,5 @@ function mapStateToProps(state) {
 
 export default compose(
   reduxForm({ form: 'addTodo' }),
-  connect(mapStateToProps, { getUserTodos })
+  connect(mapStateToProps, { getUserTodos, updateCompleteUserTodoById })
 )(UserTodoList);

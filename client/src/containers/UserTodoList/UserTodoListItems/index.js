@@ -26,6 +26,7 @@ export default (props) => {
                 <Button
                   color='green'
                   content='Are you sure this is done?'
+                  onClick={ (event) => props.handleUpdate(event, _id, completed, text)}
                 />
               }
             />
