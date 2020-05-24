@@ -2,7 +2,6 @@ const { User, Todo } = require('../models/index');
 
 module.exports = {
   getAllUserEmails: async (req, res) => {
-    console.log(req.query);
     const { email } = req.query;
     try {
       const userEmail = await User.findOne({ email }, 'email');
